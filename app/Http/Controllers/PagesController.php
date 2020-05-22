@@ -21,7 +21,7 @@ class PagesController extends Controller
 
     public function documentlist(){
 
-        return view('pages.documentlist');
+        return view('Pages.documentlist');
     }
 
 
@@ -307,7 +307,9 @@ class PagesController extends Controller
             $DataPDF['Facultad'] = \Auth::user()->Facultad;
             $DataPDF['Promedio'] = \Auth::user()->Promedio;
             $DataPDF['Universidad'] = \Auth::user()->Universidad;
-            $DataPDF['UniversidadRutaImagen'] = asset('..' . \Auth::user()->UniversidadRutaImagen);
+            // $DataPDF['UniversidadRutaImagen'] = asset('..' . \Auth::user()->UniversidadRutaImagen);
+            $DataPDF['UniversidadRutaImagen'] = asset('img/ImagenesUniversidades/' . \Auth::user()->UniversidadRutaImagen);
+            // $DataPDF['UniversidadRutaImagen'] =storage_path()
             $DataPDF['UniversidadDirección'] = \Auth::user()->UniversidadDirección;
             $DataPDF['Fecha_creación'] = $MyTimeNow->toDateString();
             $DataPDF['FechaHora_creación'] = $MyTimeNow->toDateTimeString();
@@ -338,7 +340,7 @@ class PagesController extends Controller
             $pdf->save($PathCompletoDocumentoFinal);
 
             // // // test
-            // return view('Documents.'.$optionselected,compact('DataPDF'));
+            return view('Documents.'.$optionselected,compact('DataPDF'));
 
 
             // Guardo el registro en BD
