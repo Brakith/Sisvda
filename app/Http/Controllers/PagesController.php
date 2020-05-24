@@ -52,7 +52,7 @@ class PagesController extends Controller
                 $result = file_get_contents($url, false, $context);
                 $resultJson = json_decode($result);
         if ($resultJson->success != true) {
-                return back()->with('mensaje', 'ReCaptcha Error: La recepción del paquete fallo');
+                return back()->with('mensaje', 'ReCaptcha Error: La recepción del paquete fallo intente de nuevo');
                 }
         if ($resultJson->score <= 0.3) {
                 return back()->with('mensaje', 'ReCaptcha Error: Alerta de bot');
