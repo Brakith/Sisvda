@@ -340,7 +340,7 @@ class PagesController extends Controller
             $pdf->save($PathCompletoDocumentoFinal);
 
             // // // test
-            return view('Documents.'.$optionselected,compact('DataPDF'));
+            // return view('Documents.'.$optionselected,compact('DataPDF'));
 
 
             // Guardo el registro en BD

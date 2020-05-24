@@ -22,10 +22,10 @@
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-dark bg-primary shadow-sm">
-            <div class="container py-4">
+            <div class="container py-3">
                 <a class="navbar-brand font-weight-bold d-flex align-items-center" style="height: 5vh" href="{{ url('/') }}">
                     {{--  <img src="{{asset('/../storage/ImagenesUniversidades/EPN.png')}}" width="60" height="60" class="d-inline-block align-top" alt="">  --}}
-                    <img src="{{asset('img/ImagenesUniversidades/EPN.png')}}" width="60" height="60" class="d-inline-block align-top" alt="">
+                    <img src="{{asset('img/ImagenesUniversidades/EPN.png')}}" width="45" height="45" class="d-inline-block align-top" alt="">
                     {{--  <img src="{{storage_path('ImagenesUniversidades\EPN.png')}}" width="60" height="60" class="d-inline-block align-top" alt="">  --}}
                     Home
                 </a>
