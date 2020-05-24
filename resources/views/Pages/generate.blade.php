@@ -6,9 +6,10 @@
     {{-- <div class="row justify-content-center"> --}}
     <div class="row" style="height: 80vh">
         <div class="d-flex flex-column justify-content-around align-items-center">
-            <img src="http://localhost/LaravelMongoDB/integdoc/public/../storage/Done.svg" width="50%" height="50%">
-            <h1 class="bd-title font-weight-bold text-success">Petición generada exitosamente</h1>
-            <p class="text-justify h3">
+            {{--  <img src="http://localhost/LaravelMongoDB/integdoc/public/../storage/Done.svg" width="50%" height="50%">  --}}
+            <img src="{{ asset('img/Done.svg') }}" width="30%" height="30%">
+            <h1 class="bd-title font-weight-bold text-success">Petición generada exitosamente</h2>
+            <p class="text-justify h5">
                 La petición del documento <span class="font-weight-bold">{{$optionselected}}</span> se ha generado correctamente. 
                 Cuando el archivo se haya generado se le enviará una notificacion al siguiente correo electrónico: <span class="font-weight-bold">{{$mail}}</span>
             </p>
