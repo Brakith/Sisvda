@@ -20,7 +20,7 @@
                                 <th>No</th>
                                 <th>Documento</th>
                                 {{--  <th>Creador</th>  --}}
-                                <th>Fecha Creación</th>
+                                <th>Fecha de Solicitud</th>
                                 {{--  <th>Action</th>  --}}
                             </tr> 
                         </thead>   

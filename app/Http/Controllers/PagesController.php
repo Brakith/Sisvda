@@ -307,13 +307,13 @@ class PagesController extends Controller
         // Verifica que e doc no se vuelva a generar el mismo dia
         $DocGeneradoHoy = Document::where('Fecha_creación', $MyTimeNow->toDateString())->where('UsuarioCédula',\Auth::user()->Cédula)->where('TipoDocumento',$optionselected)->get();
         if(!$DocGeneradoHoy->isEmpty()){
-            return back()->with('mensaje','El documento ya se genero el día de hoy por favor revise el listado de documentos generados');
+            return back()->with('mensaje','El documento ya se genero el día de hoy. Recuerde que solo se puede generar una vez al día cada tipo de documento.');
         }
 
         // Limite max de doc generados por periodo actual
         $NumeroDocsGenerados =  Document::where('UsuarioCédula',$cedula)->where('TipoDocumento',$optionselected)->where('PeriodoActual',$PeriodoActual)->count();
         if ($NumeroDocsGenerados >= $NumeroMaxDocumentos){
-            return back()->with('mensaje','Se ha exedido el número máximo de documentos generados en el periodo: ' . $PeriodoActual);
+            return back()->with('mensaje','Se ha exedido el número máximo de documentos generados en el periodo: ' . $PeriodoActual . '. Recuerde que usted puede generar máximo ' . $NumeroMaxDocumentos.' documentos de cada tipo por periodo.');
         }
         else
         {

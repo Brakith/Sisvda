@@ -37,7 +37,7 @@
         <br>
         {{-- Cuerpo del certificado --}}
         <p>
-            Que el señor {{$DataPDF['Nombres']}} {{$DataPDF['Apellidos']}} , aprobó el Plan de Asignaturas de la Carrera de {{$DataPDF['Carrera']}}.
+            Que el señor {{$DataPDF['Nombres']}} {{$DataPDF['Apellidos']}}, aprobó el Plan de Asignaturas de la Carrera de {{$DataPDF['Carrera']}}.
      
             Adicionalmente indico que el mencionado estudiante debe realizar su Trabajo de Titulación previo a la obtención del título de <span class="font-weight-bold text-uppercase">{{$DataPDF['TítuloObtenido']}} </span>. 
             

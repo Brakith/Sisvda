@@ -37,7 +37,7 @@
         <br>
         {{-- Cuerpo del certificado --}}
         <p class="text-justify">
-            Que el señor {{$DataPDF['Nombres']}} {{$DataPDF['Apellidos']}} , con cédula {{$DataPDF['Cédula']}} estudiante de la Carrera de {{$DataPDF['Carrera']}} tiene aprobados {{$DataPDF['CréditosAprobados']}} 
+            Que el señor {{$DataPDF['Nombres']}} {{$DataPDF['Apellidos']}}, con cédula {{$DataPDF['Cédula']}} estudiante de la Carrera de {{$DataPDF['Carrera']}} tiene aprobados {{$DataPDF['CréditosAprobados']}} 
             de un total de {{$DataPDF['CréditosTotalesCarrera']}} créditos, correspondientes al {{$DataPDF['CréditosAprobadosPorcentaje']}}% de creditos del Pensum {{$DataPDF['CarreraEstudiantePensum']}}, le queda pendiente {{$DataPDF['CréditosFaltantes']}} créditos.           
             <br>
             <br>
