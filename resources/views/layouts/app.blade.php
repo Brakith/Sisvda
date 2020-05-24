@@ -27,7 +27,7 @@
                     {{--  <img src="{{asset('/../storage/ImagenesUniversidades/EPN.png')}}" width="60" height="60" class="d-inline-block align-top" alt="">  --}}
                     <img src="{{asset('img/ImagenesUniversidades/EPN.png')}}" width="45" height="45" class="d-inline-block align-top" alt="">
                     {{--  <img src="{{storage_path('ImagenesUniversidades\EPN.png')}}" width="60" height="60" class="d-inline-block align-top" alt="">  --}}
-                    Home
+                    Inicio
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
