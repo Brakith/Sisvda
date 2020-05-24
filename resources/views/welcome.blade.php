@@ -14,6 +14,16 @@
 
         {{-- script --}}
         <script src="https://kit.fontawesome.com/a81368914c.js"></script>
+        <script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.sitekey') }}"></script>
+			<script>
+					 grecaptcha.ready(function() {
+						 grecaptcha.execute('{{ config('services.recaptcha.sitekey') }}', {action: 'DescargarDocumento'}).then(function(token) {
+							if (token) {
+							  document.getElementById('recaptcha').value = token;
+							}
+						 });
+					 });
+		</script>
     </head>
     <body>
         @if (session('mensaje'))
@@ -70,6 +80,7 @@
                                 <input type="text" class="input" name="codigohash">
                         </div>
                     </div>
+                    <input type="hidden" name="recaptcha" id="recaptcha">
                     <p align="center"><button class="btn">Descargar</button></p>
                 </form>
             </div>

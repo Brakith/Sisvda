@@ -32,47 +32,73 @@ class PagesController extends Controller
 
         $codigohash = $request->codigohash;
         // $documentos = false;
-        $documentos =Document::where('CódigoHash', $codigohash)->take(1)->get();
 
-        if($documentos->isEmpty()){
-            return back()->with('mensaje','El código no es valido');
-        }
-        else
-        {
-            foreach ($documentos as $documento){
-                // Verifíca que el documento no se haya reemplazado en la carpeta del servidor
-                $CodigoHashRespaldo = hash_file('sha256', $documento->RutaDocOriginal);
+        // recaptcha code
+        $url = 'https://www.google.com/recaptcha/api/siteverify';
+        $remoteip = $_SERVER['REMOTE_ADDR'];
+        $data = [
+                'secret' => config('services.recaptcha.secret'),
+                'response' => $request->get('recaptcha'),
+                'remoteip' => $remoteip
+            ];
+        $options = [
+                'http' => [
+                'header' => "Content-type: application/x-www-form-urlencoded\r\n",
+                'method' => 'POST',
+                'content' => http_build_query($data)
+                ]
+            ];
+        $context = stream_context_create($options);
+                $result = file_get_contents($url, false, $context);
+                $resultJson = json_decode($result);
+        if ($resultJson->success != true) {
+                return back()->with('mensaje', 'ReCaptcha Error: La recepción del paquete fallo');
+                }
+        if ($resultJson->score <= 0.3) {
+                return back()->with('mensaje', 'ReCaptcha Error: Alerta de bot');
+        } else {
+            //Validation was successful, add your form submission logic here
+            $documentos =Document::where('CódigoHash', $codigohash)->take(1)->get();
 
-                $Usuarios = User::where('Cédula',$documento->UsuarioCédula)->get();
-                foreach ($Usuarios as $Usuario){
-                    $DataPDF = array(
-                        'Nombres' => $Usuario->name,
-                        'Apellidos' => $Usuario->Apellidos,
-                        'Campus' => $Usuario->Campus,
-                        'Carrera' => $Usuario->Carrera,
-                        'Cédula' => $Usuario->Cédula,
-                        'CoordinadorNombre' => $Usuario->CoordinadorNombre,
-                        'CréditosAprobados' => $Usuario->CréditosAprobados,
-                        'CréditosTotalesCarrera' => $Usuario->CréditosTotalesCarrera,
-                        'DecanoNombre' => $Usuario->DecanoNombre,
-                        'Facultad' => $Usuario->Facultad,
-                        'Promedio' => $Usuario->Promedio,
-                        'Universidad' => $Usuario->Universidad,
-                        'CódigoHash' =>$documento->CódigoHash
-                        );
-                }
-
-                if ($CodigoHashRespaldo == $documento->CódigoHash){
-                    return response()->file($documento->RutaDocFinal);
-                }
-                else{
-                    // echo "archivo fue reemplazado";
-                    $pdf = PDF::loadView('Documents.'.$documento->TipoDocumento,compact('DataPDF'));
-                    $pdf->save($documento->RutaDocFinal);
-                    return $pdf->stream();
-                }
+            if($documentos->isEmpty()){
+                return back()->with('mensaje','El código no es valido');
             }
+            else
+            {
+                foreach ($documentos as $documento){
+                    // Verifíca que el documento no se haya reemplazado en la carpeta del servidor
+                    $CodigoHashRespaldo = hash_file('sha256', $documento->RutaDocOriginal);
 
+                    $Usuarios = User::where('Cédula',$documento->UsuarioCédula)->get();
+                    foreach ($Usuarios as $Usuario){
+                        $DataPDF = array(
+                            'Nombres' => $Usuario->name,
+                            'Apellidos' => $Usuario->Apellidos,
+                            'Campus' => $Usuario->Campus,
+                            'Carrera' => $Usuario->Carrera,
+                            'Cédula' => $Usuario->Cédula,
+                            'CoordinadorNombre' => $Usuario->CoordinadorNombre,
+                            'CréditosAprobados' => $Usuario->CréditosAprobados,
+                            'CréditosTotalesCarrera' => $Usuario->CréditosTotalesCarrera,
+                            'DecanoNombre' => $Usuario->DecanoNombre,
+                            'Facultad' => $Usuario->Facultad,
+                            'Promedio' => $Usuario->Promedio,
+                            'Universidad' => $Usuario->Universidad,
+                            'CódigoHash' =>$documento->CódigoHash
+                            );
+                    }
+
+                    if ($CodigoHashRespaldo == $documento->CódigoHash){
+                        return response()->file($documento->RutaDocFinal);
+                    }
+                    else{
+                        // echo "archivo fue reemplazado";
+                        $pdf = PDF::loadView('Documents.'.$documento->TipoDocumento,compact('DataPDF'));
+                        $pdf->save($documento->RutaDocFinal);
+                        return $pdf->stream();
+                    }
+                }
+            }      
         }
     }
 
