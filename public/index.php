@@ -7,6 +7,18 @@
  * @author   Taylor Otwell <taylor@laravel.com>
  */
 
+//  Cuando usamos balanceadores de carga tenemos esta clave en el servidor HTTP_X_FORWARDED_PROTO por lo que primero preguntamos 
+//  si existe ese valor y si ese valor es http
+if((isset($_SERVER["HTTP_X_FORWARDED_PROTO"]) && $_SERVER["HTTP_X_FORWARDED_PROTO"] === 'http')){
+    // redireccionar a https
+    $redirect = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+    // decimos por medio de php que se va hacer una redirección
+    header('HTTP/1.1 301 Moved Permanently');
+    // lo hacemos efectivo con las siguinetes lineas
+    header('Location: ' . $redirect);
+    exit();
+}
+
 define('LARAVEL_START', microtime(true));
 
 /*
