@@ -368,18 +368,26 @@ class PagesController extends Controller
             // // // test
             // return view('Documents.'.$optionselected,compact('DataPDF'));
 
+            // Averiguo si ya existe el registro en base de datos del documento si ya existe actualizo el registro caso contrario creo el registro
+            $DocumentExistente = Document::where('UsuarioCédula',\Auth::user()->Cédula)->where('TipoDocumento',$optionselected)->take(1)->get();
+            if(!$DocumentExistente->isEmpty()){
+                $DocumentExistenteRegistro=Document::where('UsuarioCédula',\Auth::user()->Cédula)->where('TipoDocumento',$optionselected)->update(['FechaHora_creación' => $MyTimeNow->toDateTimeString(), 'CódigoHash' => $DataEmail['codigohash'],'PeriodoActual' => $PeriodoActual, 'Fecha_creación' => $MyTimeNow->toDateString()]);
+            }
+            else{
+                // Creo el registro en BD
+                $RegistrodocNuevo = new Document();
+                $RegistrodocNuevo->UsuarioCédula = $cedula;
+                $RegistrodocNuevo->TipoDocumento = $optionselected;
+                $RegistrodocNuevo->CódigoHash = $DataEmail['codigohash'];
+                $RegistrodocNuevo->RutaDocOriginal = $PathCompletoDocumento;
+                $RegistrodocNuevo->RutaDocFinal = $PathCompletoDocumentoFinal;
+                $RegistrodocNuevo->PeriodoActual = $PeriodoActual;
+                $RegistrodocNuevo->FechaHora_creación = $MyTimeNow->toDateTimeString();
+                $RegistrodocNuevo->Fecha_creación = $MyTimeNow->toDateString();
+                $RegistrodocNuevo->save();
+            }
+           
 
-            // Guardo el registro en BD
-            $registrodoc = new Document();
-            $registrodoc->UsuarioCédula = $cedula;
-            $registrodoc->TipoDocumento = $optionselected;
-            $registrodoc->CódigoHash = $DataEmail['codigohash'];
-            $registrodoc->RutaDocOriginal = $PathCompletoDocumento;
-            $registrodoc->RutaDocFinal = $PathCompletoDocumentoFinal;
-            $registrodoc->PeriodoActual = $PeriodoActual;
-            $registrodoc->FechaHora_creación = $MyTimeNow->toDateTimeString();
-            $registrodoc->Fecha_creación = $MyTimeNow->toDateString();
-            $registrodoc->save();
 
 
             // // Envio de mail
