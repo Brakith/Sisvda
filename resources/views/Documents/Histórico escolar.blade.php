@@ -34,8 +34,27 @@
             <br>
             <hr>
             <h2 class="title">Histórico Escolar</h4>
-            <h2 class="subtitle">Disciplinas cursadas:</h6>
 
+            <h2 class="subtitle">Datos personales:</h6>
+            <div>
+                {{-- Cuerpo del certificado --}}
+                <table class="table">
+                    <thead class="bg-primary text-white">
+                        <tr>
+                            <th>Estudiante</th>
+                            <th>Cédula</th>
+                        </tr> 
+                    </thead>   
+                    <tbody>
+                        <tr>
+                            <td>{{$DataPDF['Nombres']}} {{$DataPDF['Apellidos']}}</td>
+                            <td>{{$DataPDF['Cédula']}} </td>
+                        </tr> 
+                    </tbody>   
+                </table>
+            </div>
+
+            <h2 class="subtitle">Disciplinas cursadas:</h6>
             <div>
                 {{-- Cuerpo del certificado --}}
                 <table class="table">
@@ -66,7 +85,25 @@
 
             <br>
             <br>
-
+            <div>
+                {{-- Cuerpo del certificado --}}
+                <table class="table">
+                    <thead class="bg-primary text-white">
+                        <tr>
+                            <th></th>
+                            <th>Promedio Final</th>
+                         </tr> 
+                    </thead>   
+                    <tbody>
+                        <tr>
+                            <td>Dando un promedio en la carrera de:</td>
+                            <td>{{ $DataPDF['Promedio'] }}</td>
+                        </tr> 
+                    </tbody>   
+                </table>
+            </div>
+            <br>
+            <br>
             
             {{-- Firma --}}
             <div class="text-center">

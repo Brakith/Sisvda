@@ -36,11 +36,11 @@
         <br>
         {{-- Cuerpo del certificado --}}
         <p class="text-justify">
-            Que el señor {{$DataPDF['Nombres']}} {{$DataPDF['Apellidos']}}, con cédula {{$DataPDF['Cédula']}} durante su permanencia estudiantil en la Carrera de {{$DataPDF['Carrera']}} 
+            Que {{$DataPDF['SeñorOSeñorita']}} {{$DataPDF['Nombres']}} {{$DataPDF['Apellidos']}}, con cédula {{$DataPDF['Cédula']}} durante su permanencia estudiantil en la Carrera de {{$DataPDF['Carrera']}} 
             de la Facultad de {{$DataPDF['Facultad']}}, registra que agotó su tercera matricula en el periodo {{$DataPDF['AgotóTerceraPeriodo']}}, por lo que no puede continuar sus estudios en la Carrera.       
             <br>
             <br>
-            El señor {{$DataPDF['Nombres']}} {{$DataPDF['Apellidos']}}, puede hacer uso de esta certificación para los fines que considere conveniente.  
+            {{$DataPDF['SeñorOSeñoritaMayuscula']}} {{$DataPDF['Nombres']}} {{$DataPDF['Apellidos']}}, puede hacer uso de esta certificación para los fines que considere conveniente.  
         </p>
         <br>
         <br>

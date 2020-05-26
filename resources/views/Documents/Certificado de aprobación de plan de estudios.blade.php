@@ -37,11 +37,11 @@
         <br>
         {{-- Cuerpo del certificado --}}
         <p>
-            Que el señor {{$DataPDF['Nombres']}} {{$DataPDF['Apellidos']}}, aprobó el Plan de Asignaturas de la Carrera de {{$DataPDF['Carrera']}}.
+            Que {{$DataPDF['SeñorOSeñorita']}} {{$DataPDF['Nombres']}} {{$DataPDF['Apellidos']}}, aprobó el Plan de Asignaturas de la Carrera de {{$DataPDF['Carrera']}}.
      
-            Adicionalmente indico que el mencionado estudiante debe realizar su Trabajo de Titulación previo a la obtención del título de <span class="font-weight-bold text-uppercase">{{$DataPDF['TítuloObtenido']}} </span>. 
+            Adicionalmente indico que el mencionado estudiante debe realizar su Trabajo de Titulación previo a la obtención del título de <span class="font-weight-bold text-uppercase">{{$DataPDF['TítuloObtenido']}}</span>. 
             
-            El señor {{$DataPDF['Nombres']}} {{$DataPDF['Apellidos']}} está autorizado para darle a esta certificación, el uso que estime conveniente.         
+            {{$DataPDF['SeñorOSeñoritaMayuscula']}} {{$DataPDF['Nombres']}} {{$DataPDF['Apellidos']}}, puede hacer uso de esta certificación para los fines que considere conveniente.
         </p>
         <br>
         <br>

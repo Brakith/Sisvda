@@ -7,7 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-    <p>Buenas tardes</p>
+    <p>¡Buen día!</p>
 
     <div>
         <p>

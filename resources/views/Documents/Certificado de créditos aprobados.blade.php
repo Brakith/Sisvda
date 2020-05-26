@@ -37,11 +37,11 @@
         <br>
         {{-- Cuerpo del certificado --}}
         <p class="text-justify">
-            Que el señor {{$DataPDF['Nombres']}} {{$DataPDF['Apellidos']}}, con cédula {{$DataPDF['Cédula']}} estudiante de la Carrera de {{$DataPDF['Carrera']}} tiene aprobados {{$DataPDF['CréditosAprobados']}} 
+            Que {{$DataPDF['SeñorOSeñorita']}} {{$DataPDF['Nombres']}} {{$DataPDF['Apellidos']}}, con cédula {{$DataPDF['Cédula']}} estudiante de la Carrera de {{$DataPDF['Carrera']}} tiene aprobados {{$DataPDF['CréditosAprobados']}} 
             de un total de {{$DataPDF['CréditosTotalesCarrera']}} créditos, correspondientes al {{$DataPDF['CréditosAprobadosPorcentaje']}}% de creditos del Pensum {{$DataPDF['CarreraEstudiantePensum']}}, le queda pendiente {{$DataPDF['CréditosFaltantes']}} créditos.           
             <br>
             <br>
-            El señor {{$DataPDF['Nombres']}} {{$DataPDF['Apellidos']}} está autorizado para darle a esta certificación, el uso que estime conveniente.         
+            {{$DataPDF['SeñorOSeñoritaMayuscula']}} {{$DataPDF['Nombres']}} {{$DataPDF['Apellidos']}}, puede hacer uso de esta certificación para los fines que considere conveniente.
         </p>
         <br>
         <br>

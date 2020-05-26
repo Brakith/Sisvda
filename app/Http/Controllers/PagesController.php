@@ -116,6 +116,7 @@ class PagesController extends Controller
         $PathDocumento = storage_path() . DIRECTORY_SEPARATOR . 'Documentos generados' . DIRECTORY_SEPARATOR .  $cedula . DIRECTORY_SEPARATOR;
         $PathDocumentoFinal = $PathDocumento . 'ConHash' . DIRECTORY_SEPARATOR;
         $PathCompletoDocumentoFinal = $PathDocumentoFinal . $optionselected . '.pdf';
+        $Genero = \Auth::user()->Género;
 
         // INFORMACIÓN SOBRE PATHS
         // Modificaciones en archivo .env
@@ -343,6 +344,16 @@ class PagesController extends Controller
             $DataPDF['TítuloObtenido'] = \Auth::user()->TítuloObtenido;
             $DataPDF['URLSistema'] = $request->root(); 
             $DataPDF['CódigoHash'] = false;
+            if ($Genero == "Masculino"){
+                $DataPDF['SeñorOSeñoritaMayuscula'] = 'El señor';
+                $DataPDF['SeñorOSeñorita'] = 'el señor';
+            }
+            else
+            {
+                $DataPDF['SeñorOSeñoritaMayuscula'] = 'La señorita';
+                $DataPDF['SeñorOSeñorita'] = 'la señorita';
+            }
+            
             // echo var_dump($DataPDF);
 
 
@@ -392,7 +403,7 @@ class PagesController extends Controller
 
             // // Envio de mail
             // // Dentro de send mando un mailable que es una clase para representar cadatipo de email.Por defecto El nombre de la clase es el asunto del email
-            Mail::to($mail)->send(new DocumentoGeneradoExitosamente($DataEmail));
+            // Mail::to($mail)->send(new DocumentoGeneradoExitosamente($DataEmail));
             return view('Pages.generate',compact('optionselected', 'mail'));
         }
     }
