@@ -403,7 +403,7 @@ class PagesController extends Controller
 
             // // Envio de mail
             // // Dentro de send mando un mailable que es una clase para representar cadatipo de email.Por defecto El nombre de la clase es el asunto del email
-            Mail::to($mail)->send(new DocumentoGeneradoExitosamente($DataEmail));
+            // Mail::to($mail)->send(new DocumentoGeneradoExitosamente($DataEmail));
             return view('Pages.generate',compact('optionselected', 'mail'));
         }
     }

@@ -269,7 +269,11 @@ a:hover{
 	}
 
 	.divtitle{
-		margin-top: 10vh;
+		margin-top: 13vh;
+		height: 20vh;
+		font-size: 1.3rem;
+		align-items: center;
+		text-align: center;
 	}
 
 	.container{
@@ -293,7 +297,12 @@ a:hover{
 	}
 
 	.login-content h2{
-        font-size: 1.3rem;
-        margin: 8px 0;
+        font-size: 2rem;
+        margin: 12px 0;
+	}
+
+	.btn{
+		font-size: 2rem;
+		width: 80%;	
 	}
 }

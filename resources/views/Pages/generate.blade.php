@@ -13,7 +13,7 @@
                 La petición del documento <span class="font-weight-bold">{{$optionselected}}</span> se ha generado correctamente. 
                 Cuando el archivo se haya generado se le enviará una notificacion al siguiente correo electrónico: <span class="font-weight-bold">{{$mail}}</span>
             </p>
-            <div style="width:10vw">                               
+            <div style="width:200px">                               
                 <a href="{{route('home')}}" class="btn btn-primary btn-lg btn-block"> OK </a>
             </div>
         </div>
