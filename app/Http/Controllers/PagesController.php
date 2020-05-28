@@ -91,10 +91,10 @@ class PagesController extends Controller
 
                     if ($CodigoHashRespaldo == $documento->CódigoHash){
                         // View
-                        // return response()->file($documento->RutaDocFinal);
+                        return response()->file($documento->RutaDocFinal);
 
                         // Descargar
-                        return response()->download($documento->RutaDocFinal,$documento->TipoDocumento . '.pdf');
+                        // return response()->download($documento->RutaDocFinal,$documento->TipoDocumento . '.pdf');
                         
                     }
                     else{

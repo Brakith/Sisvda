@@ -62,7 +62,7 @@
                 <img src="{{ asset('img/bg.svg') }}">
             </div>
             <div class="login-content">
-                <form action="{{route('descargarpdf')}}" method="post">
+                <form target="_blank" action="{{route('descargarpdf')}}" method="post">
                     @csrf
                     @error('codigohash')
                         <div class="alert">
