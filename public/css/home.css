@@ -234,6 +234,7 @@ a:hover{
 	right: 10vw;
 	top: 80vh;
 	width: 500px;
+	text-align: center;
 
 }
 
@@ -247,6 +248,14 @@ a:hover{
 @media screen and (max-width: 1000px){
 	html{
 		font-size: 16px;
+	}
+
+	.divtitle{
+		margin-top: 11vh;
+		height: 10vh;
+		font-size: 1.3rem;
+		align-items: center;
+		text-align: center;
 	}
 	form{
 		width: 290px;
@@ -304,5 +313,11 @@ a:hover{
 	.btn{
 		font-size: 2rem;
 		width: 80%;	
+	}
+
+	.alert{
+		right: 5vw;
+		top: 8vh;
+		width: 90vw;	
 	}
 }
