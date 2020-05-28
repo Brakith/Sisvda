@@ -262,6 +262,7 @@ a:hover{
 	}
 }
 
+/* smarthphone */
 @media screen and (max-width: 900px){
 	html{
 		font-size: 8px;
