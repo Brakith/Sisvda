@@ -53,7 +53,7 @@
         <img class="wave" src="{{ asset('img/wave.png') }}">
         <img class="wavesmall" src="{{ asset('img/wave2.png') }}">
         <div class="divtitle">
-            <h1 class="title">Sistema de verificación de documentos académicos</h1>
+            <h1>Sistema de verificación de documentos académicos</h1>
         </div>
 
         {{-- body --}}
@@ -70,7 +70,7 @@
                         </div>
                     @enderror
                     <img src="{{ asset('img/Candado.png') }}">
-                    <h2 class="title">Para descargar un documento ingrese el código respectivo</h2>
+                    <h2>Para descargar un documento ingrese el código respectivo</h2>
                     <div class="input-div one">
                         <div class="i">
                             <i class="fas fa-lock"></i>
