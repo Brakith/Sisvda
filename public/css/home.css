@@ -41,8 +41,8 @@ body{
 
 .links > a {
 	color: #ffffff;
-	padding: 0 25px;
-	font-size: 0.7rem;
+	padding: 0 3px;
+	font-size: 0.6rem;
 	font-weight: 600;
 	letter-spacing: .1rem;
 	text-decoration: none;
@@ -281,7 +281,7 @@ a:hover{
 	}
 
 	.links > a {
-		font-size: 1.2rem;
+		font-size: 1rem;
 	}
 
 	.img{
