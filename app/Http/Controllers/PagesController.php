@@ -11,6 +11,7 @@ use Carbon\Carbon; //obtener fecha
 use App\Document;
 use App\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class PagesController extends Controller
 {
@@ -52,7 +53,7 @@ class PagesController extends Controller
                 $result = file_get_contents($url, false, $context);
                 $resultJson = json_decode($result);
         if ($resultJson->success != true) {
-                return back()->with('mensaje', 'ReCaptcha Error: La recepción del paquete fallo intente de nuevo');
+                return back()->with('mensaje', 'El servidor de google Recaptcha tiene intermitencia por favor intente más tarde.');
                 }
         if ($resultJson->score <= 0.3) {
                 return back()->with('mensaje', 'ReCaptcha Error: Alerta de bot');
@@ -89,13 +90,19 @@ class PagesController extends Controller
                     }
 
                     if ($CodigoHashRespaldo == $documento->CódigoHash){
-                        return response()->file($documento->RutaDocFinal);
+                        // View
+                        // return response()->file($documento->RutaDocFinal);
+
+                        // Descargar
+                        return response()->download($documento->RutaDocFinal,$documento->TipoDocumento . '.pdf',);
+                        
                     }
                     else{
                         // echo "archivo fue reemplazado";
                         $pdf = PDF::loadView('Documents.'.$documento->TipoDocumento,compact('DataPDF'));
                         $pdf->save($documento->RutaDocFinal);
-                        return $pdf->stream();
+                        // return $pdf->stream();
+                        return $pdf->download();
                     }
                 }
             }      
