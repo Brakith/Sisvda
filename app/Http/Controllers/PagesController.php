@@ -94,7 +94,7 @@ class PagesController extends Controller
                         // return response()->file($documento->RutaDocFinal);
 
                         // Descargar
-                        return response()->download($documento->RutaDocFinal,$documento->TipoDocumento . '.pdf',);
+                        return response()->download($documento->RutaDocFinal,$documento->TipoDocumento . '.pdf');
                         
                     }
                     else{
