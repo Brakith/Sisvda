@@ -90,8 +90,18 @@ class PagesController extends Controller
                     }
 
                     if ($CodigoHashRespaldo == $documento->CódigoHash){
-                        // View
-                        return response()->file($documento->RutaDocFinal);
+                        if (Auth::check())
+                        {
+                            // echo "inicio sesion";
+                            // Documento entregable
+                            return response()->file($documento->RutaDocFinal);
+                        }
+                        else 
+                        {
+                            //  "No inicio sesion";
+                            // documento original
+                            return response()->file($documento->RutaDocOriginal);
+                        }
 
                         // Descargar
                         // return response()->download($documento->RutaDocFinal,$documento->TipoDocumento . '.pdf');

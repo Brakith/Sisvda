@@ -3,26 +3,9 @@
 
 @section('content')
 
-    <footer>      
-        <div>
-            <div class="footer-title">Código de autenticidad</div>
-            <div class="footer-p">
-                Verifique la autenticidad de este documento ingresando a la pagina  <span class="font-weight-bold">{{$DataPDF['URLSistema']}}</span>  e ingresado el siguiente codigo: 
-            </div>
-            <div class="footer-hash">{{$DataPDF['CódigoHash']}}</div>
+    @extends('Documents.Footer')
 
-            <div>
-                SISVDA
-                <br>
-                {{$DataPDF['Universidad']}}
-                <br>
-                {{$DataPDF['UniversidadDirección']}}
-                <br>
-                {{$DataPDF['URLSistema']}}
-            </div>
-        </div>
-    </footer>
-
+    
     <img class="float-left"  src="{{ $DataPDF['UniversidadRutaImagen'] }}" width="50" height="50">
     <img class="float-right" src="{{ $DataPDF['UniversidadRutaImagen'] }}" width="50" height="50">
 

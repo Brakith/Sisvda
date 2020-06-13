@@ -53,7 +53,7 @@
                             @endif  --}}
                         @else
                             <li class="nav-item mx-3">
-                                <a class="btn btn-light text-dark shadow-sm" href="{{ route('documentlist.form') }}">Solicitar documentos</a>
+                                <a class="btn btn-outline-light" href="{{ route('documentlist.form') }}">Solicitar documentos</a>
                             </li>
                             <li class="mx-3">
                                 <a class="btn btn-outline-light" href="{{ route('home') }}">Listados de documentos</a>
