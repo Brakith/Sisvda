@@ -22,32 +22,35 @@ class User extends Moloquent implements AuthenticatableContract, CanResetPasswor
     const CREATED_AT = 'FechaHora_creación';
     const UPDATED_AT = 'FechaHora_actualización'; 
 
-    protected $connection = 'mongodb'; //edu
+
+    // Por defecto, todos los modelos Eloquent usarán la conexión de base de datos predeterminada configurada para su aplicación. Si desea especificar una conexión diferente para el modelo, use la $connectionpropiedad:
+    // protected $connection = 'mongodb'; 
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = [
-        'name', 'email', 'password',
-    ];
+    // protected $fillable = [
+    //     'name', 'email', 'password',
+    // ];
 
     /**
      * The attributes that should be hidden for arrays.
      *
      * @var array
      */
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
+    // protected $hidden = [
+    //     'password', 'remember_token',
+    // ];
 
+    // Las lineas siguientes hay que borrar
     /**
      * The attributes that should be cast to native types.
      *
-     * @var array
+     *  @var array 
      */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    // protected $casts = [
+    //     'email_verified_at' => 'datetime',
+    // ];
 }

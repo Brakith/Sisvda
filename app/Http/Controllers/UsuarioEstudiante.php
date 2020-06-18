@@ -3,122 +3,40 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
 use App\Mail\DocumentoGeneradoExitosamente;
 use Illuminate\Support\Facades\Mail;
 use Barryvdh\DomPDF\Facade as PDF;
 use Carbon\Carbon; //obtener fecha
-
-use App\Document;
-use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
-class PagesController extends Controller
+// Modelos
+use App\Document;
+use App\User;
+
+
+class UsuarioEstudiante extends Controller
 {
+    // permite el acceso a esta clase solo a usuarios autenticados
     public function __construct()
     {
-        $this->middleware('auth')->except('descargarpdf');
+        $this->middleware('auth');
     }
 
-    public function documentlist(){
+    // despliega lista de últimos docuemntps generados
+    public function index()
+    {
+        $cedula = \Auth::user()->Cédula;
+        $posts = Document::where('UsuarioCédula',$cedula)->get();
+        
+        return view('home',compact('posts'));
+    }
 
+    // Direcciona a la panatalla donde se elige el documento a solicitar
+    public function documentlist(){
         return view('Pages.documentlist');
     }
-
-
-    public function descargarpdf(Request $request ){
-        $request->validate([
-            'codigohash'=>'required'
-        ]);
-
-        $codigohash = $request->codigohash;
-        // $documentos = false;
-
-        // recaptcha code
-        $url = 'https://www.google.com/recaptcha/api/siteverify';
-        $remoteip = $_SERVER['REMOTE_ADDR'];
-        $data = [
-                'secret' => config('services.recaptcha.secret'),
-                'response' => $request->get('recaptcha'),
-                'remoteip' => $remoteip
-            ];
-        $options = [
-                'http' => [
-                'header' => "Content-type: application/x-www-form-urlencoded\r\n",
-                'method' => 'POST',
-                'content' => http_build_query($data)
-                ]
-            ];
-        $context = stream_context_create($options);
-                $result = file_get_contents($url, false, $context);
-                $resultJson = json_decode($result);
-        if ($resultJson->success != true) {
-                return back()->with('mensaje', 'El servidor de google Recaptcha tiene intermitencia por favor intente más tarde.');
-                }
-        if ($resultJson->score <= 0.3) {
-                return back()->with('mensaje', 'ReCaptcha Error: Alerta de bot');
-        } else {
-            //Validation was successful, add your form submission logic here
-            $documentos =Document::where('CódigoHash', $codigohash)->take(1)->get();
-
-            if($documentos->isEmpty()){
-                return back()->with('mensaje','El código no es valido');
-            }
-            else
-            {
-                foreach ($documentos as $documento){
-                    // Verifíca que el documento no se haya reemplazado en la carpeta del servidor
-                    $CodigoHashRespaldo = hash_file('sha256', $documento->RutaDocOriginal);
-
-                    $Usuarios = User::where('Cédula',$documento->UsuarioCédula)->get();
-                    foreach ($Usuarios as $Usuario){
-                        $DataPDF = array(
-                            'Nombres' => $Usuario->name,
-                            'Apellidos' => $Usuario->Apellidos,
-                            'Campus' => $Usuario->Campus,
-                            'Carrera' => $Usuario->Carrera,
-                            'Cédula' => $Usuario->Cédula,
-                            'CoordinadorNombre' => $Usuario->CoordinadorNombre,
-                            'CréditosAprobados' => $Usuario->CréditosAprobados,
-                            'CréditosTotalesCarrera' => $Usuario->CréditosTotalesCarrera,
-                            'DecanoNombre' => $Usuario->DecanoNombre,
-                            'Facultad' => $Usuario->Facultad,
-                            'Promedio' => $Usuario->Promedio,
-                            'Universidad' => $Usuario->Universidad,
-                            'CódigoHash' =>$documento->CódigoHash
-                            );
-                    }
-
-                    if ($CodigoHashRespaldo == $documento->CódigoHash){
-                        if (Auth::check())
-                        {
-                            // echo "inicio sesion";
-                            // Documento entregable
-                            return response()->file($documento->RutaDocFinal);
-                        }
-                        else 
-                        {
-                            //  "No inicio sesion";
-                            // documento original
-                            return response()->file($documento->RutaDocOriginal);
-                        }
-
-                        // Descargar
-                        // return response()->download($documento->RutaDocFinal,$documento->TipoDocumento . '.pdf');
-                        
-                    }
-                    else{
-                        // echo "archivo fue reemplazado";
-                        $pdf = PDF::loadView('Documents.'.$documento->TipoDocumento,compact('DataPDF'));
-                        $pdf->save($documento->RutaDocFinal);
-                        // return $pdf->stream();
-                        return $pdf->download();
-                    }
-                }
-            }      
-        }
-    }
-
 
     public function generate(Request $request ){
 
@@ -158,60 +76,6 @@ class PagesController extends Controller
                 die('Fallo al crear las carpetas...');
             }
         }
-
-
-        // ********************TEST
-        
-        // echo asset('..' . \Auth::user()->UniversidadRutaImagen);
-        // echo asset('css/app.css') .'<br>';
-        // echo asset('js/app.js') .'<br>';
-        // echo asset('storage') .'<br>';
-
-        // echo \Auth::user()['Materias'][0]['Nombre'];
-
-        // probar con qhere
-        // $materias = \Auth::user()['Materias']->where;
-
-        // // Desplegar informacion de todas las materiaas
-        // $materias = \Auth::user()['Materias'];
-        // echo var_dump($materias) . '<br> xxxxxxxxxxxxx';
-
-        // $materias = \Auth::user()->Materias;
-        // echo var_dump($materias) . '<br>';
-        // foreach($materias as $RegistroMateria){
-        //     echo '--------------------------';
-        //     echo '<br>';
-        //     echo $RegistroMateria['Nombre'];
-        //     // foreach($RegistroMateria as $CampoRegistroMateria){
-        //     //     echo $CampoRegistroMateria['Nombre'];
-        //     //     echo '<br>';
-        //     // }
-        // }
-
-
-        //    tengo que pasar el array completo
-        // $print = User::whereRaw(['Materias' => ['Nombre'=>'Calculo Vectorial']])->get();
-        // echo $print;
-
-        // // Añadir un documeno anidado (No termino pruebas)
-        // $user = User::first();
-
-        // $book = $user->books()->save(
-        //     new Book(['title' => 'A Game of Thrones'])
-        // );
-
-        // // Query doc anidad
-        // $DocumentosTotales = user::where('email',\Auth::user()->email)->where('Materias.Periodo', \Auth::user()->PeriodoActual)->get(['Materias.Periodo']);
-        // echo $DocumentosTotales;
-
-        // // Proyecciones
-        // echo '<br>';
-        // $proye = User::collection('users')->proyect(['email' => 1])->get();
-        // echo $proye;
-
-
-
-
 
 
         // Verificar si es posible generar el documento solicitado
@@ -351,9 +215,7 @@ class PagesController extends Controller
             $DataPDF['Facultad'] = \Auth::user()->Facultad;
             $DataPDF['Promedio'] = \Auth::user()->Promedio;
             $DataPDF['Universidad'] = \Auth::user()->Universidad;
-            // $DataPDF['UniversidadRutaImagen'] = asset('..' . \Auth::user()->UniversidadRutaImagen);
             $DataPDF['UniversidadRutaImagen'] = asset('img/ImagenesUniversidades/' . \Auth::user()->UniversidadRutaImagen);
-            // $DataPDF['UniversidadRutaImagen'] =storage_path()
             $DataPDF['UniversidadDirección'] = \Auth::user()->UniversidadDirección;
             $DataPDF['Fecha_creación'] = $MyTimeNow->toDateString();
             $DataPDF['FechaHora_creación'] = $MyTimeNow->toDateTimeString();
@@ -370,8 +232,6 @@ class PagesController extends Controller
                 $DataPDF['SeñorOSeñoritaMayuscula'] = 'La señorita';
                 $DataPDF['SeñorOSeñorita'] = 'la señorita';
             }
-            
-            // echo var_dump($DataPDF);
 
 
             // Crea PDF
@@ -416,12 +276,11 @@ class PagesController extends Controller
             }
            
 
-
-
             // // Envio de mail
             // // Dentro de send mando un mailable que es una clase para representar cadatipo de email.Por defecto El nombre de la clase es el asunto del email
             Mail::to($mail)->send(new DocumentoGeneradoExitosamente($DataEmail));
             return view('Pages.generate',compact('optionselected', 'mail'));
         }
     }
+
 }
