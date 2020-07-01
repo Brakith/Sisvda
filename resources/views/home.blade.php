@@ -5,7 +5,7 @@
     <div class="row justify-content-center mt-5">
         <div class="w-100">
             {{-- <div class="card"> --}}
-                <div class="h4 font-weight-bold">Últimos documentos generados</div>
+                <div class="h4 font-weight-bold">Últimos documentos solicitados</div>
 
                 {{-- <div class="card-body"> --}}
                     @if (session('status'))

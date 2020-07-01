@@ -13,7 +13,7 @@ use App\User;
 
 class UsuarioPublico extends Controller
 {
-    public function descargarpdf(Request $request ){
+    public function Descargarpdf(Request $request ){
         $request->validate([
             'codigohash'=>'required'
         ]);
@@ -53,7 +53,7 @@ class UsuarioPublico extends Controller
             else
             {
                 foreach ($documentos as $documento){
-                    // Verifíca que el documento no se haya reemplazado en la carpeta del servidor
+                    // Validación para verifícar que el documento no se haya reemplazado en la carpeta del servidor
                     $CodigoHashRespaldo = hash_file('sha256', $documento->RutaDocOriginal);
 
                     $Usuarios = User::where('Cédula',$documento->UsuarioCédula)->get();
@@ -88,10 +88,7 @@ class UsuarioPublico extends Controller
                             // Documento original
                             return response()->file($documento->RutaDocOriginal);
                         }
-
-                        // Descargar
-                        // return response()->download($documento->RutaDocFinal,$documento->TipoDocumento . '.pdf');
-                        
+                      
                     }
                     else{
                         // echo "archivo fue reemplazado";

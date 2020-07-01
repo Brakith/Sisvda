@@ -25,7 +25,7 @@ class UsuarioEstudiante extends Controller
     }
 
     // despliega lista de últimos docuemntps generados
-    public function index()
+    public function UltimosDocumentos()
     {
         $cedula = \Auth::user()->Cédula;
         $posts = Document::where('UsuarioCédula',$cedula)->get();
@@ -34,11 +34,15 @@ class UsuarioEstudiante extends Controller
     }
 
     // Direcciona a la panatalla donde se elige el documento a solicitar
-    public function documentlist(){
+    public function ListarDocumentos(){
         return view('Pages.documentlist');
     }
 
-    public function generate(Request $request ){
+    public function GenerarPDF(Request $request ){
+
+        $request->validate([
+            'exampleRadios'=>'required'
+        ]);
 
         $MyTimeNow = Carbon::now();
         $optionselected = $request->exampleRadios;
@@ -60,7 +64,7 @@ class UsuarioEstudiante extends Controller
         // Influye al usar el helper asset
         // ASSET_URL=http://example.com/assets
           
-     
+        // CREAR Directorios
         // Verifico que exista el path caso contrario lo creo, ya que si no existe al guardar el pdf da error
         if (!file_exists($PathDocumento)) {
             //"Creo carpeta";
@@ -77,8 +81,8 @@ class UsuarioEstudiante extends Controller
             }
         }
 
-
-        // Verificar si es posible generar el documento solicitado
+        
+        // VALIDACIONES Verificar si es existe datos suficientes para generar el documento solicitado
         switch ($optionselected) {
             case 'Certificado de aprobación de plan de estudios':
                 if(\Auth::user()->CréditosAprobados == \Auth::user()->CréditosTotalesCarrera){
@@ -189,7 +193,7 @@ class UsuarioEstudiante extends Controller
         // Verifica que e doc no se vuelva a generar el mismo dia
         $DocGeneradoHoy = Document::where('Fecha_creación', $MyTimeNow->toDateString())->where('UsuarioCédula',\Auth::user()->Cédula)->where('TipoDocumento',$optionselected)->get();
         if(!$DocGeneradoHoy->isEmpty()){
-            return back()->with('mensaje','El documento ya se genero el día de hoy. Recuerde que solo se puede generar una vez al día cada tipo de documento.');
+            return back()->with('mensaje',"El documento '$optionselected' ya se genero el día de hoy. Recuerde que solo se puede generar una vez al día cada tipo de documento.");
         }
 
         // Limite max de doc generados por periodo actual
@@ -199,6 +203,8 @@ class UsuarioEstudiante extends Controller
         }
         else
         {
+            // SI PASA VALIDACIONES GENERA PDF
+            // Guardo en $DataPDF todos los datos del usuario necesarios para la generación del documento académico 
             $DataPDF['Nombres'] = \Auth::user()->name;
             $DataPDF['Apellidos'] = \Auth::user()->Apellidos;
             $DataPDF['Campus'] = \Auth::user()->Campus;
@@ -233,7 +239,7 @@ class UsuarioEstudiante extends Controller
                 $DataPDF['SeñorOSeñorita'] = 'la señorita';
             }
 
-
+    
             // Crea PDF
             $pdf = PDF::loadView('Documents.'.$optionselected,compact('DataPDF'))->save($PathCompletoDocumento);
 
@@ -256,6 +262,7 @@ class UsuarioEstudiante extends Controller
             // // // test
             // return view('Documents.'.$optionselected,compact('DataPDF'));
 
+            // REGISTRO LOS DATOS DEL DOCUMENTO ACADÉMICO GENERADO EN LA COLECCION DOCUMENTS
             // Averiguo si ya existe el registro en base de datos del documento si ya existe actualizo el registro caso contrario creo el registro
             $DocumentExistente = Document::where('UsuarioCédula',\Auth::user()->Cédula)->where('TipoDocumento',$optionselected)->take(1)->get();
             if(!$DocumentExistente->isEmpty()){
@@ -276,7 +283,7 @@ class UsuarioEstudiante extends Controller
             }
            
 
-            // // Envio de mail
+            // // ENVIO DE EMAIL
             // // Dentro de send mando un mailable que es una clase para representar cadatipo de email.Por defecto El nombre de la clase es el asunto del email
             Mail::to($mail)->send(new DocumentoGeneradoExitosamente($DataEmail));
             return view('Pages.generate',compact('optionselected', 'mail'));
